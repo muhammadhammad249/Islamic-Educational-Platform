@@ -1,0 +1,291 @@
+{
+  "Index": {
+    "title": "Welcome to Islamic Educational Website",
+    "description": "Learn Quran and Islamic Teachings with modern design and interactive sessions."
+  },
+  "Common": {
+    "home": "Home",
+    "about": "About Us",
+    "quran": "Quran Learning",
+    "teachings": "Islamic Teachings",
+    "packages": "Student Packages",
+    "contact": "Contact Us",
+    "findTeacher": "Find a Teacher"
+  },
+  "Stats": {
+    "teachers": "Master Teachers",
+    "students": "Global Students",
+    "languages": "Languages",
+    "satisfaction": "Satisfaction"
+  },
+  "Pillars": {
+    "title": "The Pillars of Transmission",
+    "items": {
+      "aqidah": {
+        "title": "Aqidah",
+        "desc": "Foundational theology and creed."
+      },
+      "fiqh": {
+        "title": "Fiqh",
+        "desc": "Jurisprudence and practical rulings."
+      },
+      "arabic": {
+        "title": "Arabic",
+        "desc": "Mastery of the sacred language."
+      },
+      "tafsir": {
+        "title": "Tafsir",
+        "desc": "Exegesis of the Quran."
+      },
+      "tazkiyah": {
+        "title": "Tazkiyah",
+        "desc": "Purification of the heart."
+      }
+    }
+  },
+  "Teachers": {
+    "title": "Distinguished Scholars",
+    "subtitle": "Learn directly from individuals whose lineage of knowledge traces back through generations.",
+    "viewAll": "View All Scholars",
+    "list": {
+      "abdullah": {
+        "name": "Shaykh Abdullah Al-Faruqi",
+        "specialization": "Fiqh & Usul"
+      },
+      "hasan": {
+        "name": "Dr. Hasan Rahman",
+        "specialization": "Arabic Linguistics"
+      },
+      "zainab": {
+        "name": "Ustadha Zainab Ali",
+        "specialization": "Tafsir & Seerah"
+      },
+      "tariq": {
+        "name": "Imam Tariq Mahmood",
+        "specialization": "Aqidah"
+      }
+    }
+  },
+  "Teachings": {
+    "pillars": {
+      "hero": {
+        "title": "The Five Pillars of Islam",
+        "subtitle": "The foundational framework of Muslim life, shaping daily practices, moral character, and spiritual devotion."
+      },
+      "shahada": {
+        "label": "Declaration of Faith",
+        "desc": "The core belief of Islam: 'There is no deity but God, and Muhammad is the messenger of God.' It is the first and most essential pillar, forming the basis of all other beliefs and practices."
+      },
+      "salah": {
+        "label": "The Daily Prayers",
+        "desc": "Performing the five daily prayers facing the Kaaba in Mecca. It serves as a direct link between the worshipper and God."
+      },
+      "zakat": {
+        "label": "Almsgiving",
+        "desc": "The obligatory giving of a set portion of one's wealth to charity, viewed as a form of purification and social responsibility."
+      },
+      "sawm": {
+        "label": "Fasting during Ramadan",
+        "desc": "Abstaining from food, drink, and other physical needs during daylight hours in the ninth month of the Islamic calendar."
+      },
+      "hajj": {
+        "label": "The Pilgrimage",
+        "desc": "The annual pilgrimage to Mecca, mandatory once in a lifetime for adult Muslims who are physically and financially capable."
+      },
+      "readMore": "Read More",
+      "explore": "Explore Practice",
+      "discover": "Discover Obligation",
+      "learn": "Learn the Journey"
+    },
+    "resources": {
+      "hero": {
+        "title": "The Library of Knowledge",
+        "subtitle": "Seek sacred texts, treatises, and scholarly discourse across disciplines.",
+        "search": "Search the archives..."
+      },
+      "theology": {
+        "title": "Theology",
+        "label": "Featured Treatise",
+        "featuredTitle": "The Foundations of Belief: A Critical Analysis",
+        "featuredDesc": "An in-depth exploration of the primary tenets of faith, drawing upon classical texts and contemporary scholarly interpretations.",
+        "viewAll": "View All Theology"
+      },
+      "law": {
+        "title": "Law & Jurisprudence",
+        "label": "Featured Commentary",
+        "featuredTitle": "Ethics in Modern Commerce",
+        "featuredDesc": "Applying classical jurisprudential principles to contemporary financial instruments and market behaviors.",
+        "viewAll": "View All Law"
+      },
+      "spirituality": {
+        "title": "Spirituality",
+        "label": "Core Text",
+        "featuredTitle": "Purification of the Heart",
+        "featuredDesc": "A comprehensive guide to identifying and treating spiritual ailments."
+      },
+      "topics": {
+        "title": "Explore Topics",
+        "divine": "Divine Attributes",
+        "prophethood": "Prophethood",
+        "eschatology": "Eschatology",
+        "principles": "Principles of Law",
+        "commercial": "Commercial Law",
+        "family": "Family Law"
+      }
+    },
+    "quran": {
+      "title": "Quranic Sciences",
+      "subtitle": "Study the sacred text with Tajweed, Translation, and Tafsir.",
+      "chapters": "Chapters",
+      "surah": "Surah",
+      "verse": "Verse",
+      "opening": "The Opening",
+      "baqarah": "The Cow",
+      "imran": "Family of Imran",
+      "nisa": "The Women",
+      "maidah": "The Table Spread"
+    },
+    "teachers": {
+      "listing": {
+        "title": "Our Distinguished Scholars",
+        "searchPlaceholder": "Search scholars...",
+        "specialty": "Specialty",
+        "language": "Language",
+        "availability": "Availability",
+        "viewProfile": "View Profile",
+        "specialties": {
+          "quran": "Quranic Sciences",
+          "fiqh": "Fiqh & Jurisprudence",
+          "arabic": "Arabic Language"
+        }
+      },
+      "profile": {
+        "about": "About",
+        "specializations": "Specializations",
+        "schedule": "Schedule",
+        "reviews": "Reviews",
+        "bookSession": "Book a Session",
+        "legacy": "A Legacy of Knowledge",
+        "mastery": "Areas of Mastery",
+        "reflections": "Student Reflections",
+        "availabilityNote": "Times shown in your local timezone"
+      }
+    },
+    "pricing": {
+      "hero": {
+        "title": "Choose Your Path",
+        "subtitle": "Embark on a journey of sacred knowledge. Select the tier that best aligns with your dedication."
+      },
+      "toggle": {
+        "monthly": "Monthly",
+        "annual": "Annual",
+        "save": "Save 20%"
+      },
+      "tiers": {
+        "initiate": {
+          "name": "Initiate",
+          "desc": "Essential access to foundational texts and recorded lectures.",
+          "cta": "Begin Journey"
+        },
+        "scholar": {
+          "name": "Scholar",
+          "desc": "Comprehensive access for the dedicated student of knowledge.",
+          "cta": "Enroll as Scholar",
+          "popular": "Most Popular"
+        },
+        "master": {
+          "name": "Master",
+          "desc": "The ultimate tier for institutional access and lifelong learning.",
+          "cta": "Apply Now"
+        }
+      },
+      "features": {
+        "library": "Core Curriculum Library",
+        "forums": "Community Forums",
+        "qa": "Monthly Q&A Session",
+        "seminars": "Live Interactive Seminars",
+        "mentorship": "1-on-1 Mentorship",
+        "manuscripts": "Advanced Manuscript Access",
+        "archive": "Private Research Archive",
+        "publishing": "Publishing Guidance"
+      },
+      "comparison": {
+        "title": "Detailed Comparison",
+        "subtitle": "Examine the precise offerings within each tier of our scholarly ecosystem.",
+        "feature": "Features"
+      }
+    },
+    "checkout": {
+      "title": "Complete Your Enrollment",
+      "summary": "Order Summary",
+      "total": "Total Amount",
+      "billing": "Billing Details",
+      "fullName": "Full Name",
+      "email": "Email Address",
+      "payment": "Payment Method",
+      "cardNumber": "Card Number",
+      "expiry": "MM/YY",
+      "cvv": "CVV",
+      "payNow": "Pay and Enroll",
+      "secure": "Secure Encrypted Transaction",
+      "tier": "Selected Tier",
+      "billingCycle": "Billing Cycle",
+      "monthly": "Monthly",
+      "annual": "Annual"
+    },
+    "auth": {
+      "login": {
+        "title": "Enter the Madrasa",
+        "subtitle": "Continue your journey of sacred knowledge.",
+        "submit": "Sign In",
+        "forgot": "Forgot password?",
+        "noAccount": "Don't have an account?",
+        "register": "Enroll now"
+      },
+      "register": {
+        "title": "Begin Your Journey",
+        "subtitle": "Join our community of students and scholars.",
+        "submit": "Create Account",
+        "alreadyAccount": "Already have an account?",
+        "login": "Sign in"
+      }
+    },
+    "dashboard": {
+      "student": {
+        "welcome": "Welcome back, Seeker",
+        "progress": "Your Progress",
+        "sessions": "Upcoming Sessions",
+        "resources": "Enrolled Resources"
+      },
+      "teacher": {
+        "welcome": "Peace be upon you, Teacher",
+        "students": "Active Students",
+        "schedule": "Your Schedule",
+        "stats": "Impact Overview"
+      }
+    },
+    "support": {
+      "contact": {
+        "title": "Seek Counsel",
+        "subtitle": "Reach out for inquiries regarding our curriculum or scholarly community.",
+        "whatsapp": "Chat on WhatsApp",
+        "email": "Send an Email",
+        "form": {
+          "name": "Your Name",
+          "email": "Your Email",
+          "message": "Your Inquiry",
+          "submit": "Submit Inquiry"
+        }
+      },
+      "error404": {
+        "title": "Path Not Found",
+        "subtitle": "The knowledge you seek resides elsewhere.",
+        "back": "Return to Study"
+      },
+      "legal": {
+        "privacy": "Privacy Policy",
+        "terms": "Terms of Service"
+      }
+    }
+  }
+}

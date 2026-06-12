@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+@theme {
+  /* Colors */
+  --color-primary: #0D0D0D;
+  --color-secondary: #FFFFFF;
+  --color-accent: #D4AF37;
+  --color-background-warm: #F8F5F0;
+  --color-dark-section: #1C1C1C;
+  --color-accent-hover: #B8922E;
+
+  /* Fonts */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-cinzel), serif;
+  --font-arabic-display: var(--font-amiri), serif;
+  --font-arabic-body: var(--font-noto-naskh), serif;
+
+  /* Spacing */
+  --spacing-base: 8px;
+}
+
+:root {
+  --background: #F8F5F0;
+  --foreground: #0D0D0D;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0D0D0D;
+    --foreground: #F8F5F0;
+  }
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+/* Custom Utilities for Islamic Design */
+.arch-top {
+  border-top-left-radius: 50% 100%;
+  border-top-right-radius: 50% 100%;
+}
+
+.gold-gradient {
+  background: linear-gradient(135deg, #D4AF37 0%, #B8922E 100%);
+}
+
+.shimmer-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-effect::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transform: rotate(45deg);
+  animation: shimmer-swipe 3s infinite;
+}
+
+@keyframes shimmer-swipe {
+  0% { transform: translate(-100%, -100%) rotate(45deg); }
+  100% { transform: translate(100%, 100%) rotate(45deg); }
+}
+
+.arch-mask {
+  clip-path: polygon(
+    0% 100%, 
+    0% 40%, 
+    10% 25%, 
+    25% 15%, 
+    50% 10%, 
+    75% 15%, 
+    90% 25%, 
+    100% 40%, 
+    100% 100%
+  );
+}
