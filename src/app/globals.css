@@ -36,6 +36,24 @@ body {
   color: var(--foreground);
 }
 
+/* Material Symbols Fix */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined' !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  font-feature-settings: 'liga';
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
 /* Custom Utilities for Islamic Design */
 .arch-top {
   border-top-left-radius: 50% 100%;
@@ -69,20 +87,24 @@ body {
 }
 
 @keyframes shimmer-swipe {
-  0% { transform: translate(-100%, -100%) rotate(45deg); }
-  100% { transform: translate(100%, 100%) rotate(45deg); }
+  0% {
+    transform: translate(-100%, -100%) rotate(45deg);
+  }
+  100% {
+    transform: translate(100%, 100%) rotate(45deg);
+  }
 }
 
 .arch-mask {
   clip-path: polygon(
-    0% 100%, 
-    0% 40%, 
-    10% 25%, 
-    25% 15%, 
-    50% 10%, 
-    75% 15%, 
-    90% 25%, 
-    100% 40%, 
+    0% 100%,
+    0% 40%,
+    10% 25%,
+    25% 15%,
+    50% 10%,
+    75% 15%,
+    90% 25%,
+    100% 40%,
     100% 100%
   );
 }

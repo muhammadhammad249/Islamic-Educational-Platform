@@ -1,47 +1,103 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
+import { Link } from '@/navigation';
 import AnimateIn from '@/components/ui/AnimateIn';
 
 export default function ImportancePage() {
+  const topics = [
+    {
+      title: 'Spiritual Growth',
+      icon: 'auto_stories',
+      desc: 'Knowledge removes ignorance and gives the believer certainty, humility, and direction.',
+    },
+    {
+      title: 'Correct Worship',
+      icon: 'mosque',
+      desc: 'Islamic education helps Muslims worship Allah correctly according to Quran and Sunnah.',
+    },
+    {
+      title: 'Better Character',
+      icon: 'favorite',
+      desc: 'Knowledge builds patience, honesty, mercy, discipline, and responsibility.',
+    },
+    {
+      title: 'Community Benefit',
+      icon: 'groups',
+      desc: 'An educated Muslim can guide family, support society, and serve the Ummah.',
+    },
+  ];
+
+  const [active, setActive] = useState(topics[0]);
+
   return (
-    <div className="bg-background min-h-screen pt-24">
-      <section className="relative py-24 px-8 bg-primary text-white text-center">
-        <div className="absolute inset-0 opacity-5 bg-[url('https://lh3.googleusercontent.com/aida-public/AB6AXuB3tqy-IXpQ8X6scUotLtAcauxsQSUBybWyW2tVAFn31Zy1fCY0j0g3PfDGnGoS3ez8WBs-SySV4IsdSEI-It_viB6dl3fYDK91FHq88TfTs1qLJ2rQhPSBmMlBrNwNiiinGnYobE1yOeLbgUH1dnFnDvpecnUAPqKbaMogb6l0gcUikjMku93lWbChgehXf6g9rpAs56960iAwY7zfMn1Wugu6VbzPXZFH1yIo3oCwQia6IuNkG8sRCNp8ON_38Yg8hSrSOQKMA-z5')] bg-cover bg-center"></div>
+    <div className="bg-primary min-h-screen text-white pt-24">
+      <section className="relative py-20 px-4 sm:px-6 lg:px-8 text-center overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-accent/10 to-transparent" />
         <div className="relative z-10 max-w-4xl mx-auto">
           <AnimateIn direction="down">
-            <span className="font-sans text-xs font-bold uppercase tracking-[0.3em] text-accent block mb-4">Seeking Knowledge</span>
-            <h1 className="font-display text-5xl md:text-7xl mb-8">Importance of Islamic Education</h1>
-            <p className="font-sans text-lg text-white/70 leading-relaxed">
+            <span className="text-xs font-bold uppercase tracking-[0.3em] text-accent block mb-4">
+              Seeking Knowledge
+            </span>
+            <h1 className="font-display text-4xl sm:text-5xl md:text-7xl mb-6">
+              Importance of Islamic Education
+            </h1>
+            <p className="text-white/70 text-sm sm:text-lg leading-relaxed">
               Why learning the Deen is an obligation and a source of light for the believer.
             </p>
           </AnimateIn>
+
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <Link href="/teachings" className="px-5 py-3 rounded-full border border-accent/30 text-accent text-xs font-bold uppercase tracking-widest hover:bg-accent hover:text-primary transition">
+              Back to Teachings
+            </Link>
+            <Link href="/teachings/quran-intro" className="px-5 py-3 rounded-full bg-accent text-primary text-xs font-bold uppercase tracking-widest">
+              Study Quran
+            </Link>
+          </div>
         </div>
       </section>
 
-      <section className="py-24 px-8 max-w-5xl mx-auto text-center">
+      <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <AnimateIn>
-          <div className="bg-white border-2 border-accent/20 p-16 relative">
-            <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-background px-6">
-              <span className="material-symbols-outlined text-4xl text-accent">menu_book</span>
-            </div>
-            <h2 className="font-display text-3xl text-primary mb-8 italic">"Seeking knowledge is a duty upon every Muslim."</h2>
-            <p className="font-sans text-primary/60 leading-relaxed">
-              Knowledge (Ilm) is the foundation of faith and action. In Islam, the pursuit of knowledge is not just a personal benefit but a form of worship that leads to the pleasure of Allah and the betterment of the Ummah.
+          <div className="rounded-3xl border border-accent/20 bg-white/[0.04] p-8 sm:p-12 text-center mb-12">
+            <span className="material-symbols-outlined text-5xl text-accent mb-6 block">menu_book</span>
+            <h2 className="font-display text-2xl sm:text-4xl mb-6 italic">
+              "Seeking knowledge is a duty upon every Muslim."
+            </h2>
+            <p className="text-white/65 leading-relaxed max-w-3xl mx-auto">
+              Knowledge is the foundation of faith and action. It leads to better worship,
+              stronger character, and service to humanity.
             </p>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-16 text-left">
-              <div className="space-y-4">
-                <h3 className="font-display text-xl text-accent">Spiritual Growth</h3>
-                <p className="font-sans text-sm text-primary/50">Knowledge removes the darkness of ignorance and replaces it with the light of certainty (Yaqeen).</p>
-              </div>
-              <div className="space-y-4">
-                <h3 className="font-display text-xl text-accent">Societal Impact</h3>
-                <p className="font-sans text-sm text-primary/50">An educated Muslim is better equipped to serve their family, community, and humanity at large.</p>
-              </div>
-            </div>
           </div>
         </AnimateIn>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {topics.map((topic) => (
+              <button
+                key={topic.title}
+                onClick={() => setActive(topic)}
+                className={`p-6 rounded-2xl border text-left transition ${
+                  active.title === topic.title
+                    ? 'bg-accent text-primary border-accent'
+                    : 'bg-white/[0.03] border-accent/15 hover:border-accent/50'
+                }`}
+              >
+                <span className="material-symbols-outlined text-3xl mb-4 block">{topic.icon}</span>
+                <h3 className="font-display text-xl">{topic.title}</h3>
+              </button>
+            ))}
+          </div>
+
+          <div className="lg:col-span-7 rounded-3xl border border-accent/20 bg-gradient-to-br from-white/[0.06] to-black/30 p-8 sm:p-12">
+            <span className="material-symbols-outlined text-5xl text-accent mb-6 block">
+              {active.icon}
+            </span>
+            <h2 className="font-display text-3xl sm:text-4xl mb-5">{active.title}</h2>
+            <p className="text-white/70 leading-relaxed text-sm sm:text-lg">{active.desc}</p>
+          </div>
+        </div>
       </section>
     </div>
   );
