@@ -12,6 +12,7 @@ import { notFound } from 'next/navigation';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import ScrollGlitter from '@/components/ui/ScrollGlitter';
+import PrayerTimesWidget from '@/components/common/PrayerTimesWidget';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -78,11 +79,11 @@ export default async function RootLayout({
       >
         <NextIntlClientProvider messages={messages}>
           <ScrollGlitter />
-          <Navbar />
 
-          <main className="flex-grow">
-            {children}
-          </main>
+          <Navbar />
+          <PrayerTimesWidget />
+
+          <main className="flex-grow">{children}</main>
 
           <Footer />
         </NextIntlClientProvider>

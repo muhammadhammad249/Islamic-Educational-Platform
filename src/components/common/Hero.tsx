@@ -10,7 +10,7 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-gradient-to-br from-primary via-dark-section to-primary"
+      className="relative min-h-screen flex items-start justify-center overflow-hidden bg-gradient-to-br from-primary via-dark-section to-primary pt-[310px] sm:pt-[285px] md:pt-[255px] lg:pt-[230px] xl:pt-[215px] pb-24"
     >
       <div className="absolute inset-0 z-0 overflow-hidden">
         <img
@@ -81,7 +81,7 @@ export default function Hero() {
         <AnimateIn delay={0.6} direction="down">
           <a
             href="#stats"
-            className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce"
+            className="absolute -bottom-14 left-1/2 -translate-x-1/2 animate-bounce"
           >
             <div className="flex flex-col items-center gap-2 text-accent/60 hover:text-accent transition-colors">
               <span className="text-xs font-sans uppercase tracking-widest">

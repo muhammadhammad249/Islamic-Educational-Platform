@@ -3,6 +3,7 @@ import StatsBar from '@/components/common/StatsBar';
 import PillarGrid from '@/components/common/PillarGrid';
 import TeacherPreview from '@/components/common/TeacherPreview';
 
+
 export default async function HomePage({
   params,
 }: {
@@ -12,8 +13,8 @@ export default async function HomePage({
 
   return (
     <main className="w-full overflow-hidden">
-      <section id="home">
-        <Hero />
+      <section id="home" className="relative">
+        <Hero />      
       </section>
 
       <section id="stats">

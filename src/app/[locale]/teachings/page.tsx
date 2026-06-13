@@ -13,12 +13,12 @@ type TeachingItem = {
 
 export default function TeachingsHubPage() {
  const quranCourses: TeachingItem[] = [
-  {
-    title: 'Quran Introduction',
-    desc: 'Learn the history, revelation, structure, preservation, and message of the Holy Quran.',
-    icon: 'menu_book',
-    href: '/teachings/quran-intro',
-  },
+ {
+  title: 'Complete Quran Pak',
+  desc: 'Read the complete Holy Quran with Arabic text, Urdu translation, English translation, and download options.',
+  icon: 'menu_book',
+  href: '/teachings/quran',
+},
   {
     title: 'Tajweed Rules',
     desc: 'Master Makharij, pronunciation, and recitation rules for beautiful Quran reading.',
@@ -45,6 +45,12 @@ export default function TeachingsHubPage() {
     desc: 'Study the foundations of Islamic faith and core beliefs of every Muslim.',
     icon: 'favorite',
     href: '/teachings/iman',
+  },
+  {
+    title: 'Hadith Collections',
+    desc: 'Study authentic Hadith books including Sahih al-Bukhari, Sahih Muslim, Jami at-Tirmidhi, Sunan Abu Dawood, Sunan an-Nasai, Sunan Ibn Majah, Musnad Ahmad, Mishkat al-Masabih, and other authentic collections with Arabic text, Urdu translation, and English translation.',
+    icon: 'auto_stories',
+    href: '/teachings/Hadith',
   },
   {
     title: 'Importance of Education',

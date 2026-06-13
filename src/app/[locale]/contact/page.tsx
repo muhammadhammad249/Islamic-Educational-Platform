@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Button from '@/components/ui/Button';
 import AnimateIn from '@/components/ui/AnimateIn';
 
@@ -18,9 +18,18 @@ const IslamicPattern = ({ className = '' }: { className?: string }) => (
     strokeWidth="0.3"
   >
     <defs>
-      <pattern id="contactIslamicGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <pattern
+        id="contactIslamicGrid"
+        width="20"
+        height="20"
+        patternUnits="userSpaceOnUse"
+      >
         <path d="M 10 0 L 20 10 L 10 20 L 0 10 Z" />
-        <path d="M 0 0 L 20 20 M 20 0 L 0 20" strokeWidth="0.15" strokeDasharray="1,1" />
+        <path
+          d="M 0 0 L 20 20 M 20 0 L 0 20"
+          strokeWidth="0.15"
+          strokeDasharray="1,1"
+        />
         <circle cx="10" cy="10" r="3.5" strokeWidth="0.2" />
         <circle cx="10" cy="10" r="1.5" strokeWidth="0.2" />
       </pattern>
@@ -47,7 +56,14 @@ const IslamicStar = ({ className = '' }: { className?: string }) => (
       <circle cx="100" cy="100" r="50" strokeDasharray="5,5" />
       <circle cx="100" cy="100" r="25" />
       <rect x="50" y="50" width="100" height="100" rx="1" />
-      <rect x="50" y="50" width="100" height="100" rx="1" transform="rotate(45 100 100)" />
+      <rect
+        x="50"
+        y="50"
+        width="100"
+        height="100"
+        rx="1"
+        transform="rotate(45 100 100)"
+      />
     </motion.g>
   </svg>
 );
@@ -61,6 +77,8 @@ export default function ContactPage() {
     message: '',
   });
 
+  const [showSuccess, setShowSuccess] = useState(false);
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -73,27 +91,45 @@ export default function ContactPage() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const message = `Assalamu Alaikum,
-
-Name: ${formData.name}
-Email: ${formData.email}
-
-Message:
-${formData.message}`;
-
-    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-
-    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    setShowSuccess(true);
 
     setFormData({
       name: '',
       email: '',
       message: '',
     });
+
+    setTimeout(() => {
+      setShowSuccess(false);
+    }, 3500);
   };
 
   return (
     <div className="bg-primary min-h-screen text-white pt-12 relative overflow-hidden selection:bg-accent/30 selection:text-white">
+      <AnimatePresence>
+        {showSuccess && (
+          <motion.div
+            initial={{ opacity: 0, y: -30, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -30, scale: 0.95 }}
+            transition={{ duration: 0.3 }}
+            className="fixed top-28 left-1/2 -translate-x-1/2 z-[9999] w-[92%] max-w-md rounded-2xl border border-accent/30 bg-[#111]/95 px-6 py-5 text-center shadow-2xl shadow-accent/10 backdrop-blur-xl"
+          >
+            <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-accent text-primary">
+              <span className="material-symbols-outlined">check</span>
+            </div>
+
+            <h3 className="text-xl font-bold text-white">
+              Inquiry Submitted
+            </h3>
+
+            <p className="mt-2 text-sm text-white/70">
+              Thank you. Your inquiry has been submitted successfully.
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[150px] pointer-events-none" />
       <div className="absolute bottom-10 right-1/4 w-[450px] h-[450px] bg-accent/5 rounded-full blur-[150px] pointer-events-none" />
 
@@ -156,7 +192,7 @@ ${formData.message}`;
                       WhatsApp
                     </h3>
                     <p className="font-sans text-[10px] text-white/50 uppercase tracking-widest">
-                      +92 300 1234567
+                      Click to send a message
                     </p>
                   </div>
                 </a>
@@ -173,14 +209,15 @@ ${formData.message}`;
                     </span>
                   </div>
 
-                  <div>
-                    <h3 className="font-display text-lg sm:text-xl text-white mb-1 group-hover:text-accent transition-colors duration-200">
-                      Support Email
-                    </h3>
-                    <p className="font-sans text-[10px] text-white/50 uppercase tracking-widest">
-                      {SUPPORT_EMAIL}
-                    </p>
-                  </div>
+                 <div>
+  <h3 className="font-display text-lg sm:text-xl text-white mb-1 group-hover:text-accent transition-colors duration-200">
+         Support Email
+          </h3>
+
+     <p className="font-sans text-[10px] text-white/50 uppercase  tracking-widest">
+          Click to send an email
+            </p>
+                 </div>
                 </a>
               </AnimateIn>
             </div>
@@ -255,7 +292,7 @@ ${formData.message}`;
                     type="submit"
                     className="w-full py-4 text-xs font-bold uppercase tracking-widest bg-gradient-to-r from-accent to-[#B8922E] text-primary hover:shadow-accent/25 hover:shadow-[0_0_20px_rgba(212,175,55,0.2)] hover:-translate-y-0.5 cursor-pointer shadow-lg transition-all"
                   >
-                    Send Message on WhatsApp
+                    Submit Inquiry
                   </Button>
                 </form>
               </div>

@@ -25,14 +25,19 @@ function Navbar() {
 
   const isActiveLink = (href: string) => {
     if (href === '/') {
-      return pathname === '/' || pathname === '/en' || pathname === '/ar' || pathname === '/ur';
+      return (
+        pathname === '/' ||
+        pathname === '/en' ||
+        pathname === '/ar' ||
+        pathname === '/ur'
+      );
     }
 
     return pathname.includes(href);
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#120f0c]/90 backdrop-blur-xl border-b border-white/10">
+    <nav className="sticky top-0 left-0 right-0 z-50 bg-[#120f0c]/95 backdrop-blur-xl border-b border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-5 lg:px-8">
         <div className="h-20 flex items-center justify-between gap-4">
           <Link
@@ -119,7 +124,7 @@ function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.25 }}
-            className="lg:hidden absolute top-20 left-4 right-4 sm:left-5 sm:right-5 bg-[#120f0c]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden"
+            className="lg:hidden absolute top-20 left-4 right-4 sm:left-5 sm:right-5 z-50 bg-[#120f0c]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden"
           >
             <div className="p-3 flex flex-col gap-1">
               {navItems.map((item) => {
