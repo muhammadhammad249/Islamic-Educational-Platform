@@ -1,11 +1,12 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { TEACHERS } from '@/constants/teachers';
 import { Link } from '@/navigation';
 import Button from '@/components/ui/Button';
 import MoorishArchImage from '@/components/ui/MoorishArchImage';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function TeacherProfilePage() {
   const params = useParams();
@@ -20,6 +21,22 @@ export default function TeacherProfilePage() {
 
   const [selectedSlot, setSelectedSlot] = useState('');
 
+  // Modals & Interactive States
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
+  const [isScheduleOpen, setIsScheduleOpen] = useState(false);
+  const [isFetchingSchedule, setIsFetchingSchedule] = useState(false);
+  const [scheduleError, setScheduleError] = useState('');
+  
+  const [bookingStep, setBookingStep] = useState<'form' | 'success'>('form');
+  const [isBookingSubmitting, setIsBookingSubmitting] = useState(false);
+  
+  const [bookingData, setBookingData] = useState({
+    date: '',
+    timeSlot: '',
+    sessionType: 'Tajweed & Recitation',
+    notes: '',
+  });
+
   const availableSlots = useMemo(() => {
     if (!teacher) return [];
 
@@ -32,6 +49,35 @@ export default function TeacherProfilePage() {
         }))
       ) || []
     );
+  }, [teacher]);
+
+  // Generate next 14 calendar dates matching the teacher's weekly scheduled days
+  const nextAvailableDates = useMemo(() => {
+    if (!teacher || !teacher.schedule) return [];
+    
+    const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const list: { dateString: string; dayName: string; formattedDay: string; slots: string[] }[] = [];
+    
+    const today = new Date();
+    for (let i = 0; i < 14; i++) {
+      const checkDate = new Date(today);
+      checkDate.setDate(today.getDate() + i);
+      const dayName = daysOfWeek[checkDate.getDay()];
+      
+      const daySched = teacher.schedule.find((s) => s.day.toLowerCase() === dayName.toLowerCase());
+      if (daySched) {
+        const dateString = `${checkDate.getDate()} ${months[checkDate.getMonth()]} ${checkDate.getFullYear()}`;
+        const formattedDay = `${dayName}, ${dateString}`;
+        list.push({
+          dateString,
+          dayName,
+          formattedDay,
+          slots: daySched.slots,
+        });
+      }
+    }
+    return list;
   }, [teacher]);
 
   if (!teacher) {
@@ -53,16 +99,67 @@ export default function TeacherProfilePage() {
     );
   }
 
-  const handleBookSession = () => {
-    const message = selectedSlot
-      ? `Assalamu Alaikum, I want to book a session with ${teacher.name}. Selected slot: ${selectedSlot}`
-      : `Assalamu Alaikum, I want to book a session with ${teacher.name}. Please share available timings.`;
+  const openBookingModal = (initialSlot: string = '') => {
+    let defaultDate = '';
+    let defaultSlot = '';
+    
+    if (initialSlot) {
+      // Format of initialSlot: "Tue - 10:00 - 11:30"
+      const parts = initialSlot.split(' - ');
+      const dayName = parts[0];
+      const slotTime = parts.slice(1).join(' - ');
+      
+      const matchingDate = nextAvailableDates.find((d) => d.dayName.toLowerCase() === dayName.toLowerCase());
+      if (matchingDate) {
+        defaultDate = matchingDate.formattedDay;
+        defaultSlot = slotTime;
+      }
+    }
+    
+    if (!defaultDate && nextAvailableDates.length > 0) {
+      defaultDate = nextAvailableDates[0].formattedDay;
+      defaultSlot = nextAvailableDates[0].slots[0] || '';
+    }
+    
+    setBookingData({
+      date: defaultDate,
+      timeSlot: defaultSlot,
+      sessionType: 'Tajweed & Recitation',
+      notes: '',
+    });
+    setBookingStep('form');
+    setIsBookingOpen(true);
+    setIsScheduleOpen(false);
+  };
 
-    router.push(
-      `/contact?teacher=${encodeURIComponent(
-        teacher.name
-      )}&message=${encodeURIComponent(message)}`
-    );
+  const handleDateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedVal = e.target.value;
+    const selectedDateObj = nextAvailableDates.find((d) => d.formattedDay === selectedVal);
+    setBookingData((prev) => ({
+      ...prev,
+      date: selectedVal,
+      timeSlot: selectedDateObj && selectedDateObj.slots.length > 0 ? selectedDateObj.slots[0] : '',
+    }));
+  };
+
+  const handleBookSession = () => {
+    openBookingModal(selectedSlot);
+  };
+
+  const handleViewSchedule = () => {
+    setScheduleError('');
+    setIsFetchingSchedule(true);
+    
+    setTimeout(() => {
+      // Simulate 15% error rate
+      if (Math.random() < 0.15) {
+        setScheduleError('Failed to fetch schedule data. The connection timed out. Please try again.');
+        setIsFetchingSchedule(false);
+      } else {
+        setIsFetchingSchedule(false);
+        setIsScheduleOpen(true);
+      }
+    }, 800);
   };
 
   return (
@@ -117,10 +214,21 @@ export default function TeacherProfilePage() {
               <Button
                 variant="outline"
                 size="lg"
-                onClick={() => setActiveTab('schedule')}
-                className="cursor-pointer"
+                onClick={handleViewSchedule}
+                disabled={isFetchingSchedule}
+                className="cursor-pointer relative min-w-[180px]"
               >
-                View Schedule
+                {isFetchingSchedule ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <svg className="animate-spin h-4 w-4 text-accent" viewBox="0 0 24 24" fill="none">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    </svg>
+                    Fetching...
+                  </span>
+                ) : (
+                  'View Schedule'
+                )}
               </Button>
             </div>
           </div>
@@ -341,6 +449,272 @@ export default function TeacherProfilePage() {
           </section>
         )}
       </main>
+
+      {/* Booking Modal */}
+      <AnimatePresence>
+        {isBookingOpen && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsBookingOpen(false)}
+              className="absolute inset-0 bg-black/80 backdrop-blur-md"
+            />
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ type: 'spring', duration: 0.5 }}
+              className="w-full max-w-lg bg-gradient-to-b from-[#1c1c1c] to-[#0a0a0a] border border-accent/25 rounded-3xl p-6 sm:p-8 relative z-10 shadow-2xl overflow-hidden text-left"
+            >
+              <button
+                onClick={() => setIsBookingOpen(false)}
+                className="absolute top-4 right-4 text-white/40 hover:text-white transition cursor-pointer"
+                aria-label="Close modal"
+              >
+                <span className="material-symbols-outlined">close</span>
+              </button>
+
+              {bookingStep === 'form' ? (
+                <div>
+                  <h3 className="font-display text-2xl sm:text-3xl text-white mb-2">Book a Session</h3>
+                  <p className="text-xs text-white/50 uppercase tracking-widest mb-6">With {teacher.name}</p>
+
+                  <div className="space-y-4">
+                    <div className="space-y-2 group">
+                      <label className="font-sans text-[10px] uppercase font-bold text-white/40 group-focus-within:text-accent tracking-widest transition-colors block">
+                        Select Available Date
+                      </label>
+                      <div className="relative">
+                        <select
+                          value={bookingData.date}
+                          onChange={handleDateChange}
+                          className="w-full bg-[#0D0D0D]/40 border border-accent/25 focus:border-accent text-white px-4 py-3 outline-none font-sans transition-all duration-300 rounded-xl appearance-none"
+                        >
+                          {nextAvailableDates.map((d) => (
+                            <option key={d.formattedDay} value={d.formattedDay} className="bg-[#121212] text-white">
+                              {d.formattedDay}
+                            </option>
+                          ))}
+                        </select>
+                        <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-white/45 pointer-events-none">
+                          keyboard_arrow_down
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2 group">
+                      <label className="font-sans text-[10px] uppercase font-bold text-white/40 group-focus-within:text-accent tracking-widest transition-colors block">
+                        Select Time Slot (GMT)
+                      </label>
+                      <div className="relative">
+                        <select
+                          value={bookingData.timeSlot}
+                          onChange={(e) => setBookingData((prev) => ({ ...prev, timeSlot: e.target.value }))}
+                          className="w-full bg-[#0D0D0D]/40 border border-accent/25 focus:border-accent text-white px-4 py-3 outline-none font-sans transition-all duration-300 rounded-xl appearance-none"
+                        >
+                          {nextAvailableDates
+                            .find((d) => d.formattedDay === bookingData.date)
+                            ?.slots.map((slot) => (
+                              <option key={slot} value={slot} className="bg-[#121212] text-white">
+                                {slot}
+                              </option>
+                            ))}
+                        </select>
+                        <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-white/45 pointer-events-none">
+                          keyboard_arrow_down
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2 group">
+                      <label className="font-sans text-[10px] uppercase font-bold text-white/40 group-focus-within:text-accent tracking-widest transition-colors block">
+                        Session Type
+                      </label>
+                      <div className="relative">
+                        <select
+                          value={bookingData.sessionType}
+                          onChange={(e) => setBookingData((prev) => ({ ...prev, sessionType: e.target.value }))}
+                          className="w-full bg-[#0D0D0D]/40 border border-accent/25 focus:border-accent text-white px-4 py-3 outline-none font-sans transition-all duration-300 rounded-xl appearance-none"
+                        >
+                          <option value="Tajweed & Recitation" className="bg-[#121212] text-white">Tajweed & Recitation</option>
+                          <option value="Quran Memorization (Hifz)" className="bg-[#121212] text-white">Quran Memorization (Hifz)</option>
+                          <option value="Arabic Grammar & Linguistics" className="bg-[#121212] text-white">Arabic Grammar & Linguistics</option>
+                          <option value="General Islamic Consultation" className="bg-[#121212] text-white">General Islamic Consultation</option>
+                        </select>
+                        <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-white/45 pointer-events-none">
+                          keyboard_arrow_down
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2 group">
+                      <label className="font-sans text-[10px] uppercase font-bold text-white/40 group-focus-within:text-accent tracking-widest transition-colors block">
+                        Additional Notes (Optional)
+                      </label>
+                      <textarea
+                        value={bookingData.notes}
+                        onChange={(e) => setBookingData((prev) => ({ ...prev, notes: e.target.value }))}
+                        rows={3}
+                        className="w-full bg-[#0D0D0D]/40 border border-accent/25 focus:border-accent text-white px-4 py-3 outline-none font-sans transition-all duration-300 rounded-xl resize-none placeholder:text-white/20 text-sm"
+                        placeholder="Share any specific learning goals or levels..."
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex justify-end gap-3 border-t border-accent/15 pt-5 mt-6">
+                    <button
+                      type="button"
+                      onClick={() => setIsBookingOpen(false)}
+                      className="px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest text-white/50 hover:text-white hover:bg-white/5 transition cursor-pointer"
+                    >
+                      Cancel
+                    </button>
+                    <Button
+                      variant="primary"
+                      disabled={isBookingSubmitting || !bookingData.date || !bookingData.timeSlot}
+                      onClick={() => {
+                        setIsBookingSubmitting(true);
+                        setTimeout(() => {
+                          setIsBookingSubmitting(false);
+                          setBookingStep('success');
+                        }, 800);
+                      }}
+                      className="relative min-w-[150px] cursor-pointer"
+                    >
+                      {isBookingSubmitting ? (
+                        <span className="flex items-center gap-2">
+                          <svg className="animate-spin h-4 w-4 text-primary" viewBox="0 0 24 24" fill="none">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                          </svg>
+                          Booking...
+                        </span>
+                      ) : (
+                        'Confirm Booking'
+                      )}
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <div className="text-center py-8 flex flex-col items-center">
+                  <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center text-primary mb-6 shadow-lg shadow-accent/20">
+                    <span className="material-symbols-outlined text-4xl font-bold">check</span>
+                  </div>
+                  <h3 className="font-display text-2xl sm:text-3xl text-white mb-3">Booking Confirmed!</h3>
+                  <p className="text-sm text-white/70 max-w-sm mx-auto leading-relaxed mb-8">
+                    Your session with <span className="text-accent font-bold">{teacher.name}</span> has been scheduled for <span className="text-white font-semibold">{bookingData.date}</span> at <span className="text-white font-semibold">{bookingData.timeSlot}</span>. An email has been sent with link details.
+                  </p>
+                  <Button
+                    variant="primary"
+                    onClick={() => setIsBookingOpen(false)}
+                    className="w-full sm:w-auto cursor-pointer"
+                  >
+                    Close Portal
+                  </Button>
+                </div>
+              )}
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Schedule Modal */}
+      <AnimatePresence>
+        {isScheduleOpen && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsScheduleOpen(false)}
+              className="absolute inset-0 bg-black/80 backdrop-blur-md"
+            />
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ type: 'spring', duration: 0.5 }}
+              className="w-full max-w-2xl bg-gradient-to-b from-[#1c1c1c] to-[#0a0a0a] border border-accent/25 rounded-3xl p-6 sm:p-8 relative z-10 shadow-2xl overflow-hidden text-left"
+            >
+              <button
+                onClick={() => setIsScheduleOpen(false)}
+                className="absolute top-4 right-4 text-white/40 hover:text-white transition cursor-pointer"
+                aria-label="Close modal"
+              >
+                <span className="material-symbols-outlined">close</span>
+              </button>
+
+              <h3 className="font-display text-2xl sm:text-3xl text-white mb-2">Available Sessions</h3>
+              <p className="text-xs text-white/50 uppercase tracking-widest mb-6">Select a slot to start booking with {teacher.name}</p>
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-h-[350px] overflow-y-auto pr-1">
+                {availableSlots.length > 0 ? (
+                  availableSlots.map((item) => (
+                    <button
+                      key={item.value}
+                      onClick={() => {
+                        openBookingModal(item.value);
+                      }}
+                      className="p-4 rounded-xl border border-accent/15 bg-accent/5 hover:border-accent hover:bg-accent/15 transition text-left group cursor-pointer flex flex-col justify-between min-h-[90px]"
+                    >
+                      <span className="text-[10px] uppercase font-bold tracking-widest text-accent group-hover:text-white transition">
+                        {item.day}
+                      </span>
+                      <span className="text-xs font-semibold text-white/80 mt-1 block">
+                        {item.slot}
+                      </span>
+                    </button>
+                  ))
+                ) : (
+                  <div className="col-span-full py-12 text-center text-white/30 text-sm">
+                    No schedule available.
+                  </div>
+                )}
+              </div>
+
+              <div className="flex justify-end border-t border-accent/15 pt-5 mt-6">
+                <button
+                  onClick={() => setIsScheduleOpen(false)}
+                  className="px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest text-white/60 hover:text-white transition cursor-pointer"
+                >
+                  Close
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Connection Error Toast */}
+      {scheduleError && (
+        <div className="fixed bottom-6 right-6 z-50 max-w-sm rounded-2xl border border-red-500/30 bg-[#151212]/95 px-5 py-4 shadow-2xl shadow-red-500/10 backdrop-blur-xl animate-in fade-in slide-in-from-bottom-5">
+          <div className="flex items-start gap-3">
+            <span className="material-symbols-outlined text-red-500 text-lg mt-0.5 animate-pulse">warning</span>
+            <div className="flex-1">
+              <h4 className="text-sm font-bold text-white">Connection Error</h4>
+              <p className="text-xs text-white/70 mt-1">{scheduleError}</p>
+              <div className="flex gap-3 mt-3">
+                <button
+                  onClick={handleViewSchedule}
+                  className="text-xs font-bold text-accent hover:text-white transition uppercase tracking-wider cursor-pointer"
+                >
+                  Retry
+                </button>
+                <button
+                  onClick={() => setScheduleError('')}
+                  className="text-xs font-bold text-white/40 hover:text-white transition uppercase tracking-wider cursor-pointer"
+                >
+                  Dismiss
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
