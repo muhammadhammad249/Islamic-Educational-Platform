@@ -45,13 +45,81 @@ function Navbar() {
             onClick={() => setIsOpen(false)}
             className="flex items-center gap-3 shrink-0"
           >
-            <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center text-primary font-black">
-              A
+            <div className="w-11 h-11 relative flex items-center justify-center shrink-0">
+              {/* Outer glow ring */}
+              <div className="absolute inset-0 rounded-full border border-accent/30" />
+              <div className="absolute inset-[2px] rounded-full border border-accent/10" />
+              <svg
+                viewBox="0 0 100 100"
+                className="w-9 h-9"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs>
+                  <linearGradient id="logoGold" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#F5D77A" />
+                    <stop offset="50%" stopColor="#D4AF37" />
+                    <stop offset="100%" stopColor="#B8922E" />
+                  </linearGradient>
+                  <linearGradient id="logoGoldLight" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stopColor="#F5D77A" stopOpacity="0.9" />
+                    <stop offset="100%" stopColor="#D4AF37" stopOpacity="0.6" />
+                  </linearGradient>
+                </defs>
+                {/* Dome */}
+                <path
+                  d="M30 68 Q30 42 50 32 Q70 42 70 68"
+                  stroke="url(#logoGold)"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  fill="none"
+                />
+                {/* Minaret center */}
+                <rect x="47" y="22" width="6" height="46" rx="2" fill="url(#logoGold)" />
+                {/* Finial on top */}
+                <circle cx="50" cy="19" r="3" fill="url(#logoGold)" />
+                <line x1="50" y1="16" x2="50" y2="12" stroke="url(#logoGold)" strokeWidth="2" strokeLinecap="round" />
+                {/* Crescent */}
+                <path
+                  d="M60 18 A8 8 0 1 1 60 34 A6 6 0 1 0 60 18Z"
+                  fill="url(#logoGoldLight)"
+                  transform="translate(8, -6) scale(0.8)"
+                />
+                {/* Base platform */}
+                <rect x="24" y="68" width="52" height="3" rx="1.5" fill="url(#logoGold)" />
+                {/* Left small arch */}
+                <path
+                  d="M30 68 Q30 58 38 54 Q46 58 46 68"
+                  stroke="url(#logoGold)"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  fill="none"
+                  opacity="0.5"
+                />
+                {/* Right small arch */}
+                <path
+                  d="M54 68 Q54 58 62 54 Q70 58 70 68"
+                  stroke="url(#logoGold)"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  fill="none"
+                  opacity="0.5"
+                />
+                {/* Star detail */}
+                <circle cx="50" cy="50" r="2" fill="url(#logoGold)" opacity="0.7" />
+                {/* Bottom decorative line */}
+                <line x1="32" y1="74" x2="68" y2="74" stroke="url(#logoGold)" strokeWidth="1" opacity="0.3" />
+              </svg>
             </div>
 
-            <span className="text-white text-lg sm:text-xl font-bold tracking-wide">
-              AL-MADRASA
-            </span>
+            <div className="flex flex-col leading-none">
+              <span className="text-accent text-[10px] font-semibold tracking-[0.3em] uppercase">
+                Al
+              </span>
+              <span className="text-white text-lg sm:text-xl font-bold tracking-wide">
+                MADRASA
+              </span>
+            </div>
           </Link>
 
           <div className="hidden lg:flex items-center gap-7">

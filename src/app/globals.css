@@ -22,6 +22,48 @@
 :root {
   --background: #F8F5F0;
   --foreground: #0D0D0D;
+
+  /* Layout tokens */
+  --container-max: 1200px;
+  --container-pad-x: 40px;
+  --container-pad-x-sm: 24px;
+  --container-pad-x-xs: 16px;
+
+  /* Spacing scale (multiples of 8) */
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 32px;
+  --space-xl: 48px;
+  --space-2xl: 64px;
+  --space-3xl: 80px;
+
+  /* Section gaps */
+  --section-gap: 80px;
+  --section-gap-sm: 40px;
+
+  /* Typography scale (1.25 ratio, base 16px) */
+  --text-xs: 0.75rem;     /* 12px */
+  --text-sm: 0.875rem;    /* 14px */
+  --text-base: 1rem;      /* 16px */
+  --text-lg: 1.25rem;     /* 20px */
+  --text-xl: 1.5625rem;   /* 25px */
+  --text-2xl: 1.953rem;   /* ~31px */
+  --text-3xl: 2.441rem;   /* ~39px */
+  --text-4xl: 3.052rem;   /* ~49px */
+
+  /* Line heights */
+  --leading-body: 1.6;
+  --leading-heading: 1.3;
+
+  /* Shadows */
+  --shadow-soft: 0 4px 6px rgba(0, 0, 0, 0.08);
+  --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.12);
+  --shadow-elevated: 0 8px 30px rgba(0, 0, 0, 0.18);
+  --shadow-gold: 0 4px 20px rgba(212, 175, 55, 0.12);
+
+  /* Transitions */
+  --transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -31,12 +73,73 @@
   }
 }
 
+/* ─── Base Reset & Typography ─── */
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 body {
   background-color: var(--background);
   color: var(--foreground);
+  line-height: var(--leading-body);
 }
 
-/* Material Symbols Fix */
+h1, h2, h3, h4, h5, h6 {
+  line-height: var(--leading-heading);
+  letter-spacing: 0.5px;
+}
+
+p {
+  line-height: var(--leading-body);
+}
+
+/* ─── Layout Utilities ─── */
+
+.section-container {
+  max-width: var(--container-max);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--container-pad-x);
+  padding-right: var(--container-pad-x);
+}
+
+@media (max-width: 1023px) {
+  .section-container {
+    padding-left: var(--container-pad-x-sm);
+    padding-right: var(--container-pad-x-sm);
+  }
+}
+
+@media (max-width: 767px) {
+  .section-container {
+    padding-left: var(--container-pad-x-xs);
+    padding-right: var(--container-pad-x-xs);
+  }
+}
+
+.section-gap {
+  padding-top: var(--section-gap);
+  padding-bottom: var(--section-gap);
+}
+
+@media (max-width: 767px) {
+  .section-gap {
+    padding-top: var(--section-gap-sm);
+    padding-bottom: var(--section-gap-sm);
+  }
+}
+
+/* ─── Smooth Transitions ─── */
+
+a, button, input, textarea, select {
+  transition: all var(--transition-base);
+}
+
+/* ─── Material Symbols Fix ─── */
 .material-symbols-outlined {
   font-family: 'Material Symbols Outlined' !important;
   font-weight: 400 !important;
@@ -54,7 +157,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Custom Utilities for Islamic Design */
+/* ─── Custom Utilities for Islamic Design ─── */
 .arch-top {
   border-top-left-radius: 50% 100%;
   border-top-right-radius: 50% 100%;
@@ -107,4 +210,28 @@ body {
     100% 40%,
     100% 100%
   );
+}
+
+/* ─── Card & Shadow Utilities ─── */
+.card-shadow {
+  box-shadow: var(--shadow-card);
+}
+
+.card-shadow-gold {
+  box-shadow: var(--shadow-gold);
+}
+
+/* ─── Form Element Consistency ─── */
+input, textarea, select {
+  font-size: var(--text-sm);
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+}
+
+/* ─── Button Minimum Sizing ─── */
+.btn-base {
+  min-height: 44px;
+  padding: 12px 24px;
 }
